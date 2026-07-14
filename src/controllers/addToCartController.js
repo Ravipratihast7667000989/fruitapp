@@ -5,164 +5,277 @@ import Cart from "../models/cartModel.js";
 
 export const addCart = async (req, res) => {
   try {
+
     const {
       productId,
       productName,
       image,
       price,
-      quantity,
+      quantity
     } = req.body;
 
-    let cart = await Cart.findOne({
-      userId: req.user.id,
-      productId,
-    });
-
-    if (cart) {
-      cart.quantity += quantity;
-
-      await cart.save();
-
-      return res.json({
-        success: true,
-        message: "Quantity Updated",
+    if (
+      !productId ||
+      !productName ||
+      !price
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required"
       });
     }
 
-    cart = await Cart.create({
+    let cart = await Cart.findOne({
       userId: req.user.id,
+      productId
+    });
+
+    if (cart) {
+
+      cart.quantity += Number(quantity);
+
+      await cart.save();
+
+      return res.status(200).json({
+        success: true,
+        message: "Quantity Updated",
+        cart
+      });
+
+    }
+
+    cart = await Cart.create({
+
+      userId: req.user.id,
+
       productId,
+
       productName,
+
       image,
+
       price,
-      quantity,
+
+      quantity
+
     });
 
     res.status(201).json({
+
       success: true,
-      message: "Added Successfully",
-      cart,
+
+      message: "Product Added Successfully",
+
+      cart
+
     });
-  } catch (e) {
+
+  } catch (error) {
+
+    console.log(error);
+
     res.status(500).json({
+
       success: false,
-      message: e.message,
+
+      message: error.message,
+
     });
+
   }
 };
+
 
 
 
 // Get Cart
 
 export const getCart = async (req, res) => {
+
   try {
+
     const cart = await Cart.find({
-      userId: req.user.id,
+
+      userId: req.user.id
+
     });
 
-    res.json({
+    res.status(200).json({
+
       success: true,
-      cart,
+
+      cart
+
     });
-  } catch (e) {
+
+  } catch (error) {
+
     res.status(500).json({
+
       success: false,
-      message: e.message,
+
+      message: error.message
+
     });
+
   }
+
 };
 
 
 
-// Delete
+
+// Delete Cart
 
 export const deleteCart = async (req, res) => {
+
   try {
+
     await Cart.findByIdAndDelete(req.params.id);
 
     res.json({
+
       success: true,
-      message: "Deleted",
+
+      message: "Deleted Successfully"
+
     });
-  } catch (e) {
+
+  } catch (error) {
+
     res.status(500).json({
+
       success: false,
-      message: e.message,
+
+      message: error.message
+
     });
+
   }
+
 };
 
 
 
-// Update Qty
+
+// Update Quantity
 
 export const updateCart = async (req, res) => {
+
   try {
+
     const { quantity } = req.body;
 
     const cart = await Cart.findByIdAndUpdate(
+
       req.params.id,
+
       {
-        quantity,
+
+        quantity
+
       },
+
       {
-        new: true,
+
+        new: true
+
       }
+
     );
 
     res.json({
+
       success: true,
-      cart,
+
+      cart
+
     });
-  } catch (e) {
+
+  } catch (error) {
+
     res.status(500).json({
+
       success: false,
-      message: e.message,
+
+      message: error.message
+
     });
+
   }
+
 };
+
 
 
 
 // Count
 
 export const cartCount = async (req, res) => {
+
   try {
+
     const count = await Cart.countDocuments({
-      userId: req.user.id,
+
+      userId: req.user.id
+
     });
 
     res.json({
+
       success: true,
-      count,
+
+      count
+
     });
-  } catch (e) {
+
+  } catch (error) {
+
     res.status(500).json({
+
       success: false,
-      message: e.message,
+
+      message: error.message
+
     });
+
   }
+
 };
 
 
 
-// Clear
+
+// Clear Cart
 
 export const clearCart = async (req, res) => {
+
   try {
+
     await Cart.deleteMany({
-      userId: req.user.id,
+
+      userId: req.user.id
+
     });
 
     res.json({
+
       success: true,
-      message: "Cart Cleared",
+
+      message: "Cart Cleared"
+
     });
-  } catch (e) {
+
+  } catch (error) {
+
     res.status(500).json({
+
       success: false,
-      message: e.message,
+
+      message: error.message
+
     });
+
   }
+
 };
