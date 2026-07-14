@@ -2,6 +2,84 @@ import productModel from "../models/productModel.js";
 import cloudinary from "../utils/cloudinary.js";
 
 
+
+
+// SEARCH PRODUCT API
+
+export const searchProduct = async(req,res)=>{
+
+
+    try{
+
+
+        const keyword =
+        req.query.search;
+
+
+
+        if(!keyword){
+
+            return res.status(400).json({
+
+                success:false,
+
+                message:"Search keyword required"
+
+            });
+
+        }
+
+
+
+
+        const products =
+        await productModel.find({
+
+            productName:{
+
+                $regex:keyword,
+
+                $options:"i"
+
+            }
+
+
+        });
+
+
+
+
+        res.status(200).json({
+
+            success:true,
+
+            count:products.length,
+
+            products
+
+        });
+
+
+
+    }
+    catch(error){
+
+
+        res.status(500).json({
+
+            success:false,
+
+            message:error.message
+
+        });
+
+
+    }
+
+
+};
+
+
 export const getAllProducts = async (req, res) => {
   try {
     const products = await productModel.find().sort({ createdAt: -1 });
