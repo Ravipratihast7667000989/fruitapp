@@ -1,84 +1,55 @@
 import mongoose from "mongoose";
+const orderSchema = new mongoose.Schema({
 
-const trackingSchema = new mongoose.Schema(
-  {
-    status: {
-      type: String,
-      required: true,
-    },
-    date: {
-      type: String,
-      default: "",
-    },
-    time: {
-      type: String,
-      default: "",
-    },
-    completed: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  { _id: false }
-);
-
-const orderSchema = new mongoose.Schema(
-  {
     user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     },
 
-    products: [
-      {
-        product: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Product",
+
+    orderId: {
+        type: String,
+        required: true
+    },
+
+
+    items: [{
+
+
+        productId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Product"
         },
+
+        productName: String,
+
         quantity: Number,
-      },
-    ],
 
-    totalPrice: Number,
+        price: Number,
 
-    paymentStatus: {
-      type: String,
-      default: "Paid",
-    },
+        image: String
 
-    tracking: {
-      type: [trackingSchema],
-      default: [
-        {
-          status: "Order Placed",
-          completed: true,
-        },
-        {
-          status: "Order Confirmed",
-          completed: false,
-        },
-        {
-          status: "Packed",
-          completed: false,
-        },
-        {
-          status: "Shipped",
-          completed: false,
-        },
-        {
-          status: "Out for Delivery",
-          completed: false,
-        },
-        {
-          status: "Delivered",
-          completed: false,
-        },
-      ],
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
 
+    }],
+
+
+    totalAmount: Number,
+
+
+    tracking: [
+
+        {
+
+            status: String,
+
+            date: String,
+
+            completed: Boolean
+
+        }
+
+    ]
+
+
+});
 export default mongoose.model("Order", orderSchema);

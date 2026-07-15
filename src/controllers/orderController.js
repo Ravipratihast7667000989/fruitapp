@@ -1,4 +1,105 @@
 import productModel from "../models/productModel.js";
+import Order from "../models/orderModel.js";
+
+
+export const createOrder = async(req,res)=>{
+
+try{
+
+
+const {
+
+items,
+totalAmount,
+paymentStatus,
+paymentId,
+address
+
+}=req.body;
+
+
+
+const order = await Order.create({
+
+userId:req.user.id,
+
+items,
+
+totalAmount,
+
+paymentStatus,
+
+paymentId,
+
+address,
+
+
+tracking:[
+
+{
+status:"Order Placed",
+date:new Date().toLocaleDateString("en-GB"),
+time:new Date().toLocaleTimeString(),
+completed:true
+},
+
+
+{
+status:"Packed",
+date:"",
+time:"",
+completed:false
+},
+
+
+{
+status:"Out For Delivery",
+date:"",
+time:"",
+completed:false
+},
+
+
+{
+status:"Delivered",
+date:"",
+time:"",
+completed:false
+}
+
+]
+
+
+});
+
+
+
+res.status(201).json({
+
+success:true,
+
+message:"Order Created",
+
+order
+
+});
+
+
+}
+
+catch(error){
+
+res.status(500).json({
+
+success:false,
+message:error.message
+
+});
+
+}
+
+
+}
 
 // GET Tracking
 export const getTracking = async (req, res) => {
