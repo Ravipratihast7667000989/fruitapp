@@ -18,7 +18,6 @@ const {
 
 const order = await Order.create({
 
-    user:req.user.id,
 
     orderId: "ORD" + Date.now(),   // ⭐ जरूरी
 
