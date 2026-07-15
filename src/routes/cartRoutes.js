@@ -24,9 +24,9 @@ router.post("/add", authMiddleware, addCart);
 
 router.get("/all", authMiddleware, getCart);
 
-router.delete("/delete/:id", authMiddleware, deleteCart);
+router.delete("/delete/:productId", authMiddleware, deleteCart);
 
-router.put("/update/:id", authMiddleware, updateCart);
+router.put("/update/:productId", authMiddleware, updateCart);
 
 router.get("/count", authMiddleware, cartCount);
 
