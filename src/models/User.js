@@ -4,23 +4,23 @@ const userSchema = new mongoose.Schema(
   {
     fullName: {
       type: String,
-      
+
     },
 
     email: {
       type: String,
-    
+
       unique: true,
     },
 
     password: {
       type: String,
-      
+
     },
 
     phone: {
       type: String,
-     
+
       unique: true,
     },
 
@@ -43,6 +43,10 @@ const userSchema = new mongoose.Schema(
     image: {
       type: String,
       default: "",
+    },
+    isBlocked: {
+      type: Boolean,
+      default: false,
     },
   },
   {

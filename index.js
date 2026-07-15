@@ -6,6 +6,7 @@ import authRoutes from "./src/routes/authRoutes.js";
 import bannerRoutes from "./src/routes/bannerRoutes.js";
 import productRoutes from "./src/routes/productRoutes.js"
 import cartRoutes from "./src/routes/cartRoutes.js";
+import userBlockRoutes from "./src/routes/blockRoutes.js";
 import cors from "cors";
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/banner", bannerRoutes);
 app.use("/api/product",productRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/user", userBlockRoutes);
 
 
 app.listen(process.env.PORT||5000, () =>
