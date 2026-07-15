@@ -11,23 +11,33 @@ try{
 const {
     items,
     totalAmount,
-    tracking
+    paymentStatus,
+    address
 }=req.body;
 
 
 
 const order = await Order.create({
 
-
-    orderId: "ORD" + Date.now(),   // ⭐ जरूरी
-
-
-    items: items,
-
-    totalAmount: totalAmount,
+    user:req.user.id,
 
 
-    tracking: tracking || [
+    orderId:"ORD"+Date.now(),
+
+
+    items,
+
+
+    totalAmount,
+
+
+    paymentStatus,
+
+
+    address,
+
+
+    tracking:[
 
         {
             status:"Order Placed",
@@ -62,11 +72,9 @@ const order = await Order.create({
 
 res.status(201).json({
 
-    success:true,
+success:true,
 
-    message:"Order Created Successfully",
-
-    order
+order
 
 });
 
@@ -74,18 +82,16 @@ res.status(201).json({
 }
 catch(error){
 
-console.log(error);
-
 res.status(500).json({
 
-    success:false,
+success:false,
 
-    message:error.message
+message:error.message
 
 });
 
-
 }
+
 
 };
 // GET Tracking
