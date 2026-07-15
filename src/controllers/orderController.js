@@ -2,71 +2,59 @@ import productModel from "../models/productModel.js";
 import Order from "../models/orderModel.js";
 
 
+
 export const createOrder = async(req,res)=>{
 
 try{
 
 
 const {
-
-items,
-totalAmount,
-paymentStatus,
-paymentId,
-address
-
+    items,
+    totalAmount,
+    tracking
 }=req.body;
 
 
 
 const order = await Order.create({
 
+    user:req.user.id,
 
-items,
-
-totalAmount,
-
-paymentStatus,
-
-paymentId,
-
-address,
+    orderId: "ORD" + Date.now(),   // ⭐ जरूरी
 
 
-tracking:[
+    items: items,
 
-{
-status:"Order Placed",
-date:new Date().toLocaleDateString("en-GB"),
-time:new Date().toLocaleTimeString(),
-completed:true
-},
+    totalAmount: totalAmount,
 
 
-{
-status:"Packed",
-date:"",
-time:"",
-completed:false
-},
+    tracking: tracking || [
 
+        {
+            status:"Order Placed",
+            date:new Date().toLocaleDateString(),
+            completed:true
+        },
 
-{
-status:"Out For Delivery",
-date:"",
-time:"",
-completed:false
-},
+        {
+            status:"Processing",
+            date:"",
+            completed:false
+        },
 
+        {
+            status:"Shipped",
+            date:"",
+            completed:false
+        },
 
-{
-status:"Delivered",
-date:"",
-time:"",
-completed:false
-}
+        {
+            status:"Delivered",
+            date:"",
+            completed:false
+        }
 
-]
+    ]
 
 
 });
@@ -75,31 +63,32 @@ completed:false
 
 res.status(201).json({
 
-success:true,
+    success:true,
 
-message:"Order Created",
+    message:"Order Created Successfully",
 
-order
+    order
 
 });
 
 
 }
-
 catch(error){
+
+console.log(error);
 
 res.status(500).json({
 
-success:false,
-message:error.message
+    success:false,
+
+    message:error.message
 
 });
 
-}
-
 
 }
 
+};
 // GET Tracking
 export const getTracking = async (req, res) => {
   try {
