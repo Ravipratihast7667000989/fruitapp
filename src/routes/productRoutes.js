@@ -8,8 +8,8 @@ const router = express.Router();
 router.post("/create", productupload.single("image"), createProduct);
 router.get("/all", getAllProducts);
 router.get("/search",searchProduct);
-router.delete("/delete:id",deleteProduct);
-router.delete("/delete:productId",deleteCart);
+router.delete("/delete/:id", deleteProduct);
+router.delete("/delete/:productId",deleteCart);
 
 
 export default router;
