@@ -1,9 +1,9 @@
-import Order from "../models/orderModel.js";
+import Order from "../models/productModel.js";
 
 // GET Tracking
 export const getTracking = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id);
+    const order = await productModel.findById(req.params.id);
 
     if (!order) {
       return res.status(404).json({
@@ -29,7 +29,7 @@ export const updateTracking = async (req, res) => {
   try {
     const { step } = req.body;
 
-    const order = await Order.findById(req.params.id);
+    const order = await productModel.findById(req.params.id);
 
     if (!order) {
       return res.status(404).json({
