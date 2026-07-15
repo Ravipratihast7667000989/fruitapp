@@ -117,66 +117,83 @@ export const getTracking = async (req, res) => {
   }
 };
 
-// UPDATE Tracking
-export const updateTracking = async (req, res) => {
-  try {
-    const { step } = req.body;
 
-    const order = await productModel.findById(req.params.id);
 
-    if (!order) {
-      return res.status(404).json({
-        success: false,
-        message: "Order not found",
-      });
+// UPDATE ORDER TRACKING STATUS
+
+export const updateTracking = async(req,res)=>{
+
+    try{
+
+        const {orderId, trackingId} = req.params;
+
+        const {status, date, completed} = req.body;
+
+
+        const order = await Order.findById(orderId);
+
+
+        if(!order){
+
+            return res.status(404).json({
+
+                success:false,
+                message:"Order not found"
+
+            });
+
+        }
+
+
+
+        const tracking = order.tracking.id(trackingId);
+
+
+        if(!tracking){
+
+            return res.status(404).json({
+
+                success:false,
+                message:"Tracking status not found"
+
+            });
+
+        }
+
+
+
+        tracking.status = status;
+        tracking.date = date;
+        tracking.completed = completed;
+
+
+
+        await order.save();
+
+
+
+        res.status(200).json({
+
+            success:true,
+
+            message:"Tracking updated",
+
+            tracking:order.tracking
+
+        });
+
+
+
+    }catch(error){
+
+        res.status(500).json({
+
+            success:false,
+
+            message:error.message
+
+        });
+
     }
 
-    if (step < 0 || step >= order.tracking.length) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid tracking step",
-      });
-    }
-
-    const today = new Date();
-
-    const date = today.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-
-    const time = today.toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-
-    // Previous steps complete karo
-    for (let i = 0; i <= step; i++) {
-      order.tracking[i].completed = true;
-
-      if (!order.tracking[i].date) {
-        order.tracking[i].date = date;
-      }
-
-      if (!order.tracking[i].time) {
-        order.tracking[i].time = time;
-      }
-    }
-
-    await order.save();
-
-    res.status(200).json({
-      success: true,
-      message: "Tracking Updated Successfully",
-      tracking: order.tracking,
-    });
-
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
+}
