@@ -131,7 +131,12 @@ export const deleteCart = async (req, res) => {
 
   try {
 
-    await Cart.findByIdAndDelete(req.params.id);
+     const { productId } = req.params;
+
+    const item = await Cart.findOneAndDelete({
+      userId: req.user.id,
+      productId,
+    });
 
     res.json({
 
