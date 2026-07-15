@@ -8,7 +8,6 @@ import cloudinary from "../utils/cloudinary.js";
 
 export const searchProduct = async(req,res)=>{
 
-
     try{
 
 
@@ -77,6 +76,36 @@ export const searchProduct = async(req,res)=>{
     }
 
 
+};
+
+export const deleteProduct = async (req, res) => {
+  try {
+    const product = await productModel.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    // Cloudinary image delete
+    if (product.image?.public_id) {
+      await cloudinary.uploader.destroy(product.image.public_id);
+    }
+
+    await productModel.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({
+      success: true,
+      message: "Product deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
 
