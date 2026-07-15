@@ -1,4 +1,4 @@
-import Order from "../models/productModel.js";
+import productModel from "../models/productModel.js";
 
 // GET Tracking
 export const getTracking = async (req, res) => {
