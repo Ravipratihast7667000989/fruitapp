@@ -21,7 +21,6 @@ address
 
 const order = await Order.create({
 
-userId:req.user.id,
 
 items,
 
