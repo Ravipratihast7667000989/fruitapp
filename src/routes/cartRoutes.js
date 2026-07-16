@@ -17,6 +17,7 @@ clearCart
 } from "../controllers/addToCartController.js";
 
 import authMiddleware from "../middleware/cartMiddleware.js";
+import { getCartCount } from "../controllers/cartController.js";
 
 const router = express.Router();
 
@@ -31,5 +32,6 @@ router.put("/update/:productId", authMiddleware, updateCart);
 router.get("/count", authMiddleware, cartCount);
 
 router.delete("/clear", authMiddleware, clearCart);
+router.get("/cartcount",authMiddleware,getCartCount);
 
 export default router;

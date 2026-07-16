@@ -9,8 +9,10 @@ import {
 const router = express.Router();
 
 router.get("/track/:id", getTracking);
-
-router.put("/track/:id", updateTracking);
+router.put(
+    "/tracking/:orderId/:trackingId",
+    updateTracking
+);
 router.post("/create", createOrder);
 
 export default router;
