@@ -1,23 +1,10 @@
 import express from "express";
 
-import {
 
-addCart,
-
-getCart,
-
-deleteCart,
-
-updateCart,
-
-cartCount,
-
-clearCart
-
-} from "../controllers/addToCartController.js";
 
 import authMiddleware from "../middleware/cartMiddleware.js";
-import { getCartCount } from "../controllers/cartController.js";
+import { addCart, cartCount, clearCart, deleteCart, getCart, updateCart } from "../controllers/addToCartController.js";
+import { getCartItems } from "../controllers/cartController.js";
 
 const router = express.Router();
 
@@ -32,6 +19,6 @@ router.put("/update/:productId", authMiddleware, updateCart);
 router.get("/count", authMiddleware, cartCount);
 
 router.delete("/clear", authMiddleware, clearCart);
-router.get("/cartcount",authMiddleware,getCartCount);
+router.get("/cart-count",authMiddleware,getCartItems);
 
 export default router;
