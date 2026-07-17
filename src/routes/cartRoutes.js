@@ -3,7 +3,9 @@ import express from "express";
 
 
 import authMiddleware from "../middleware/cartMiddleware.js";
-import { addCart, cartCount, clearCart, deleteCart, getCart, updateCart,getCartCount } from "../controllers/addToCartController.js";
+import { addCart, cartCount, clearCart, deleteCart, getCart, updateCart,getCartCount,deleteCartItemsLegth } from "../controllers/addToCartController.js";
+
+
 
 
 const router = express.Router();
@@ -20,5 +22,7 @@ router.get("/count", authMiddleware, cartCount);
 
 router.delete("/clear", authMiddleware, clearCart);
 router.get("/cart-count", authMiddleware, getCartCount);
+router.get("/cart-count-delete", authMiddleware, deleteCartItemsLegth);
+
 
 export default router;

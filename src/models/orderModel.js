@@ -1,55 +1,58 @@
 import mongoose from "mongoose";
-const orderSchema = new mongoose.Schema({
+
+const trackingSchema = new mongoose.Schema({
+  status: {
+    type: String,
+    enum: [
+      "Pending",
+      "Confirmed",
+      "Processing",
+      "Packed",
+      "Shipped",
+      "Out For Delivery",
+      "Delivered",
+      "Cancelled"
+    ]
+  },
+  message: String,
+  date: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+const orderSchema = new mongoose.Schema(
+  {
+    orderId: {
+      type: String,
+      required: true,
+      unique: true
+    },
 
     user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
     },
 
-
-    orderId: {
-        type: String,
-        required: true
-    },
-
-
-    items: [{
-
-
-        productId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Product"
-        },
-
-        productName: String,
-
-        quantity: Number,
-
-        price: Number,
-
-        image: String
-
-
-    }],
-
+    items: [],
 
     totalAmount: Number,
 
+    paymentStatus: {
+      type: String,
+      default: "Pending"
+    },
 
-    tracking: [
+    orderStatus: {
+      type: String,
+      default: "Pending"
+    },
 
-        {
+    address: Object,
 
-            status: String,
+    tracking: [trackingSchema]
+  },
+  { timestamps: true }
+);
 
-            date: String,
-
-            completed: Boolean
-
-        }
-
-    ]
-
-
-});
 export default mongoose.model("Order", orderSchema);

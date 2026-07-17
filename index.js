@@ -9,7 +9,7 @@ import bestsellingRoutes from "./src/routes/bestsellingRoutes.js"
 import cartRoutes from "./src/routes/cartRoutes.js";
 import userBlockRoutes from "./src/routes/blockRoutes.js";
 import categoryRoutes from "./src/routes/categoryRoutes.js"
-import orderRoutes from "./src/routes/orderRoute.js"
+import orderTrackingRoutes from "./src/routes/orderTrackingRoutes.js"
 import cors from "cors";
 dotenv.config();
 
@@ -21,8 +21,6 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-
 app.use("/api/auth", authRoutes);
 app.use("/api/banner", bannerRoutes);
 app.use("/api/product",productRoutes);
@@ -30,8 +28,7 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/user", userBlockRoutes);
 app.use("/api/bestselling",bestsellingRoutes);
 app.use("/api/category",categoryRoutes);
-app.use("/api/order",orderRoutes);
-
+app.use("/api/order",orderTrackingRoutes);
 
 app.listen(process.env.PORT||5000, () =>
   console.log("Server running on port 5000")
