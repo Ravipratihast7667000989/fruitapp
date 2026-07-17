@@ -3,8 +3,8 @@ import express from "express";
 
 
 import authMiddleware from "../middleware/cartMiddleware.js";
-import { addCart, cartCount, clearCart, deleteCart, getCart, updateCart } from "../controllers/addToCartController.js";
-import { getCartItems } from "../controllers/cartController.js";
+import { addCart, cartCount, clearCart, deleteCart, getCart, updateCart,getCartCount } from "../controllers/addToCartController.js";
+
 
 const router = express.Router();
 
@@ -19,6 +19,6 @@ router.put("/update/:productId", authMiddleware, updateCart);
 router.get("/count", authMiddleware, cartCount);
 
 router.delete("/clear", authMiddleware, clearCart);
-router.get("/cart-count",authMiddleware,getCartItems);
+router.get("/cart-count", authMiddleware, getCartCount);
 
 export default router;

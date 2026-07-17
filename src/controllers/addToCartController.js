@@ -124,6 +124,26 @@ export const getCart = async (req, res) => {
 
 
 
+/// cart count
+
+export const getCartCount = async (req, res) => {
+  try {
+    const count = await Cart.countDocuments({
+      userId: req.user.id,
+    });
+
+    res.status(200).json({
+      success: true,
+      count,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 
 // Delete Cart
 
