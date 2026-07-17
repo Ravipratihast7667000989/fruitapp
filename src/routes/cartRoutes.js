@@ -22,7 +22,7 @@ router.get("/count", authMiddleware, cartCount);
 
 router.delete("/clear", authMiddleware, clearCart);
 router.get("/cart-count", authMiddleware, getCartCount);
-router.get("/cart-count-delete", authMiddleware, deleteCartItemsLegth);
+router.get("/cart-count-delete/:id", authMiddleware, deleteCartItemsLegth);
 
 
 export default router;
