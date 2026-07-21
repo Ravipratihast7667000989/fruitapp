@@ -44,10 +44,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    isBlocked: {
-      type: Boolean,
-      default: false,
-    },
+   
+  otp: String,
+  otpExpiry: Date,
+  otpSentAt: Date,
+
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
   },
   {
     timestamps: true,

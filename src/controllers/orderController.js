@@ -3,142 +3,142 @@ import Order from "../models/orderModel.js";
 
 
 
-export const createOrder = async(req,res)=>{
+export const createOrder = async (req, res) => {
 
-try{
-
-
-const {
-    items,
-    totalAmount,
-    paymentStatus,
-    address
-}=req.body;
+    try {
 
 
-
-const order = await Order.create({
+        const {
+            items,
+            totalAmount,
+            paymentStatus,
+            address
+        } = req.body;
 
 
 
-    orderId:"ORD"+Date.now(),
-
-
-    items,
-
-
-    totalAmount,
-
-
-    paymentStatus,
-
-
-    address,
-
-
-    tracking:[
-
-        {
-            status:"Order Placed",
-            date:new Date().toLocaleDateString(),
-            completed:true
-        },
-
-        {
-            status:"Processing",
-            date:"",
-            completed:false
-        },
-
-        {
-            status:"Shipped",
-            date:"",
-            completed:false
-        },
-
-        {
-            status:"Delivered",
-            date:"",
-            completed:false
-        }
-
-    ]
-
-
-});
+        const order = await Order.create({
 
 
 
-res.status(201).json({
-
-success:true,
-
-order
-
-});
+            orderId: "ORD" + Date.now(),
 
 
-}
-catch(error){
+            items,
 
-res.status(500).json({
 
-success:false,
+            totalAmount,
 
-message:error.message
 
-});
+            paymentStatus,
 
-}
+
+            address,
+
+
+            tracking: [
+
+                {
+                    status: "Order Placed",
+                    date: new Date().toLocaleDateString(),
+                    completed: true
+                },
+
+                {
+                    status: "Processing",
+                    date: "",
+                    completed: false
+                },
+
+                {
+                    status: "Shipped",
+                    date: "",
+                    completed: false
+                },
+
+                {
+                    status: "Delivered",
+                    date: "",
+                    completed: false
+                }
+
+            ]
+
+
+        });
+
+
+
+        res.status(201).json({
+
+            success: true,
+
+            order
+
+        });
+
+
+    }
+    catch (error) {
+
+        res.status(500).json({
+
+            success: false,
+
+            message: error.message
+
+        });
+
+    }
 
 
 };
 // GET Tracking
 export const getTracking = async (req, res) => {
-  try {
-    const order = await productModel.findById(req.params.id);
+    try {
+        const order = await productModel.findById(req.params.id);
 
-    if (!order) {
-      return res.status(404).json({
-        success: false,
-        message: "Order not found",
-      });
+        if (!order) {
+            return res.status(404).json({
+                success: false,
+                message: "Order not found",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            tracking: order.tracking,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
     }
-
-    res.status(200).json({
-      success: true,
-      tracking: order.tracking,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
 };
 
 
 
 // UPDATE ORDER TRACKING STATUS
 
-export const updateTracking = async(req,res)=>{
+export const updateTracking = async (req, res) => {
 
-    try{
+    try {
 
-        const {orderId, trackingId} = req.params;
+        const { orderId, trackingId } = req.params;
 
-        const {status, date, completed} = req.body;
+        const { status, date, completed } = req.body;
 
 
         const order = await Order.findById(orderId);
 
 
-        if(!order){
+        if (!order) {
 
             return res.status(404).json({
 
-                success:false,
-                message:"Order not found"
+                success: false,
+                message: "Order not found"
 
             });
 
@@ -149,12 +149,12 @@ export const updateTracking = async(req,res)=>{
         const tracking = order.tracking.id(trackingId);
 
 
-        if(!tracking){
+        if (!tracking) {
 
             return res.status(404).json({
 
-                success:false,
-                message:"Tracking status not found"
+                success: false,
+                message: "Tracking status not found"
 
             });
 
@@ -174,23 +174,23 @@ export const updateTracking = async(req,res)=>{
 
         res.status(200).json({
 
-            success:true,
+            success: true,
 
-            message:"Tracking updated",
+            message: "Tracking updated",
 
-            tracking:order.tracking
+            tracking: order.tracking
 
         });
 
 
 
-    }catch(error){
+    } catch (error) {
 
         res.status(500).json({
 
-            success:false,
+            success: false,
 
-            message:error.message
+            message: error.message
 
         });
 

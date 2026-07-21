@@ -20,6 +20,7 @@ export const register = async (req, res) => {
       city,
       state,
       pincode,
+
     } = req.body;
 
     // Validation
@@ -84,6 +85,16 @@ export const register = async (req, res) => {
       state,
       pincode,
       image: imageUrl,
+
+
+      otp: String,
+      otpExpiry: Date,
+      otpSentAt: Date,
+
+      isVerified: {
+        type: Boolean,
+        default: false,
+      },
     });
 
     // Generate JWT
@@ -156,7 +167,7 @@ export const updatePassword = async (req, res) => {
     });
   }
 };
- 
+
 /* ================= LOGIN ================= */
 
 export const login = async (req, res) => {
