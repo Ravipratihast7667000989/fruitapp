@@ -6,6 +6,9 @@ import { generateOTP } from "../utils/otp.js";
 import { generateToken } from "../utils/jwt.js";
 import jwt from "jsonwebtoken";
 import sendEmail from "../utils/sendEmail.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 /* ================= REGISTER ================= */
 
