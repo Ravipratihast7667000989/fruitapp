@@ -12,6 +12,7 @@ import categoryRoutes from "./src/routes/categoryRoutes.js"
 import orderTrackingRoutes from "./src/routes/orderTrackingRoutes.js"
 import cors from "cors";
 dotenv.config();
+const PORT = process.env.PORT || 5000;
 
 connectDB();
 const app = express();
@@ -30,6 +31,6 @@ app.use("/api/bestselling",bestsellingRoutes);
 app.use("/api/category",categoryRoutes);
 app.use("/api/order",orderTrackingRoutes);
 
-app.listen(process.env.PORT||5000, () =>
-  console.log("Server running on port 5000")
+app.listen(PORT, () =>
+  console.log(`Server is running on port ${PORT}`)
 );
