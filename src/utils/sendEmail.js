@@ -1,47 +1,42 @@
 import nodemailer from "nodemailer";
 
 const sendEmail = async (email, otp) => {
-  try {
 
-    const transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
 
-      service: "gmail",
+    host: "smtp.gmail.com",
 
-      auth: {
-        user: process.env.USER_EMAIL,
-        pass: process.env.USER_PASS,
-      },
+    port: 465,
 
-    });
+    secure: true,
 
+    auth: {
+      user: process.env.USER_EMAIL,
+      pass: process.env.USER_PASS,
+    },
 
-    await transporter.sendMail({
+    tls: {
+      rejectUnauthorized: false
+    }
 
-      from: process.env.USER_EMAIL,
-
-      to: email,
-
-      subject: "Fruit App OTP",
-
-      html: `
-        <h2>Your OTP is ${otp}</h2>
-        <p>This OTP is valid for 5 minutes.</p>
-      `,
-
-    });
+  });
 
 
-    console.log("Email sent successfully");
+  await transporter.sendMail({
 
+    from: process.env.USER_EMAIL,
 
-  } catch (error) {
+    to: email,
 
-    console.log("Email Error:", error);
+    subject: "Fruit App OTP Verification",
 
-    throw error;
+    html: `
+      <h2>Your OTP is ${otp}</h2>
+      <p>Valid for 5 minutes.</p>
+    `
 
-  }
+  });
+
 };
-
 
 export default sendEmail;
