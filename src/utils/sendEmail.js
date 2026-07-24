@@ -1,40 +1,47 @@
 import nodemailer from "nodemailer";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const sendEmail = async (email, otp) => {
   try {
+
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
+
+      service: "gmail",
+
       auth: {
         user: process.env.USER_EMAIL,
         pass: process.env.USER_PASS,
-        
       },
-      
+
     });
+
 
     await transporter.sendMail({
+
       from: process.env.USER_EMAIL,
+
       to: email,
-      subject: "Password Reset OTP",
+
+      subject: "Fruit App OTP",
+
       html: `
-        <div style="font-family:Arial;padding:20px">
-          <h2>Forgot Password OTP</h2>
-          <h1 style="color:blue">${otp}</h1>
-          <p>This OTP expires in 5 minutes.</p>
-        </div>
+        <h2>Your OTP is ${otp}</h2>
+        <p>This OTP is valid for 5 minutes.</p>
       `,
+
     });
 
-    console.log("OTP email sent successfully");
+
+    console.log("Email sent successfully");
+
+
   } catch (error) {
+
     console.log("Email Error:", error);
+
     throw error;
+
   }
 };
+
 
 export default sendEmail;
